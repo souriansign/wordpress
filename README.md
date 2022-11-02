@@ -1,1 +1,1 @@
-# wordpress
+# WordPress Original Teema
