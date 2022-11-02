@@ -1,0 +1,202 @@
+$main_c_1: #6667ab;
+$main_c_2: #9496f7;
+$main_c_light: #dfdff7;
+$main_c_dark: #484978;
+$black: $main_c_dark;
+$white: #fff;
+$gray: #a6a7b9;
+$red: #b93c3c;
+$blue: #3c8dd1;
+$font_c: $main_c_dark;
+$link_c: $main_c_2;
+$marker: #bce1ff;
+
+// ***************
+// MIXIN
+// @include name;で使用
+// ***************
+
+$media-tab: 600px;
+$media-pc: 1025px;
+
+@mixin sp {
+    @media only screen and (max-width: $media-tab - 1) {
+        @content;
+    }
+}
+@mixin tab {
+    @media only screen and (min-width: $media-tab) {
+        @content;
+    }
+}
+@mixin pc {
+    @media only screen and (min-width: $media-pc) {
+        @content;
+    }
+}
+
+// スクリプト
+@mixin font_sc {
+    font-family: rollerscript-smooth, sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+// サンセリフ　weightは400 500 600
+@mixin font_san($weight: 400) {
+    font-family: montserrat, sans-serif;
+    font-weight: $weight;
+    font-style: normal;
+    letter-spacing: 1px;
+}
+// 日本語　weightは400 or 700
+@mixin font_jp($weight: 400) {
+    font-family: fot-tsukuardgothic-std, sans-serif;
+    font-weight: $weight;
+    font-style: normal;
+    letter-spacing: 8px;
+}
+//font awsome
+@mixin fontawsome($font) {
+    content: #{'"' + $font + '"'};
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+}
+// コンテンツの横幅
+@mixin container {
+    width: 100%;
+    margin-right: auto;
+    margin-left: auto;
+    padding: 0 2rem;
+    @include tab {
+    }
+    @include pc {
+        max-width: 1280px;
+    }
+    @media screen and (min-width: 1025px) and (max-width: 1420px) {
+        padding: 0 5rem;
+    }
+}
+// コンテンツの横幅 半分
+@mixin container_half {
+    max-width: 640px;
+}
+
+// コンテンツの上下余白
+@mixin margin {
+    margin-top: 5rem;
+    margin-bottom: 10rem;
+    @include tab {
+        margin-top: 10rem;
+        margin-bottom: 20rem;
+    }
+}
+
+@mixin transition($speed: 0.3s) {
+    transition: all ease-out $speed;
+}
+// リンクhover 色変化
+@mixin link_color_hover {
+    @include transition;
+    color: $link_c;
+    opacity: 1;
+}
+// リンクhover 透明度変化
+@mixin link_opacity_hover {
+    @include transition;
+    opacity: 0.7;
+}
+
+// ページタイトル
+@mixin page_title($color_en: $black, $color_jp: $gray, $align: flex-start, $line-height: 30px, $font_big: 3rem, $font_small: 1.2rem) {
+    @include font_san(600);
+    color: $color_en;
+    font-size: $font_big;
+    line-height: $line-height;
+    display: flex;
+    flex-direction: column;
+    align-items: $align;
+    margin-bottom: 3rem;
+    white-space: nowrap;
+    @include pc {
+        margin-bottom: 5rem;
+    }
+    span {
+        @include font_jp(700);
+        color: $color_jp;
+        font-size: $font_small;
+        margin-top: 3px;
+        @include pc {
+            font-size: 1.5rem;
+        }
+    }
+}
+
+// DETAIL ボタン
+@mixin btn__detail($color: $main_c_2, $text_color: $black) {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 3rem;
+    line-height: 0;
+    position: relative;
+    svg {
+        transform: rotate(-90deg);
+    }
+
+    circle {
+        fill: transparent;
+        stroke: $color;
+        stroke-width: 1;
+        opacity: 0.3;
+    }
+    .circle-hover {
+        fill: transparent;
+        stroke: $color;
+        stroke-width: 1;
+        opacity: 0;
+        animation: circle 3s;
+    }
+
+    a {
+        position: relative;
+        padding-right: 25px;
+        &:hover {
+            .circle-hover {
+                opacity: 1;
+                animation: circle_hover 3s;
+            }
+        }
+    }
+    @keyframes circle {
+        0% {
+            stroke-dasharray: 377 377;
+        }
+        99.9%,
+        to {
+            stroke-dasharray: 0 377;
+        }
+    }
+
+    @keyframes circle_hover {
+        0% {
+            stroke-dasharray: 0 377;
+        }
+        99.9%,
+        to {
+            stroke-dasharray: 377 377;
+        }
+    }
+    .text {
+        @include font_san;
+        color: $text_color;
+        font-size: 12px;
+        position: absolute;
+        z-index: 99;
+        top: 50%;
+        right: 0;
+        transform: translateY(-50%);
+        display: flex;
+        align-items: center;
+        width: 48px;
+        height: 48px;
+    }
+}
